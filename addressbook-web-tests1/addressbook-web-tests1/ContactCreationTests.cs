@@ -49,11 +49,11 @@ namespace WebAddressbookTests
             GoToHomepage();
             Login(new AccountData("admin","secret"));
             CreationContact();
-            ContactData group = new ContactData ("f");
-            group.Firstname = "f";
-            group.Middlename = "f";
-            group.Lastname = "f";
-            group.Nickname = "f";
+            ContactData contact = new ContactData ("1");
+            contact.Middlename ="f1";
+            contact.Lastname ="f1";
+            contact.Nickname ="f1";
+            SubmitContactCreation(); //добавила 
             // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
             Logout();
         }
@@ -63,7 +63,12 @@ namespace WebAddressbookTests
             driver.FindElement(By.LinkText("Logout")).Click();
         }
 
-        private void InputContactForm(ContactData contact)
+        private void SubmitContactCreation() //добавила метод
+        {
+            driver.FindElement(By.XPath("(//input[@name='submit'])")).Click();
+            //driver.FindElement(By.Name("submit")).Click();
+        }
+            private void InputContactForm(ContactData contact)
         {
             driver.FindElement(By.Name("firstname")).Clear();
             driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
