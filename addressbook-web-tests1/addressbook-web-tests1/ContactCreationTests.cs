@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests
+    public class Untitled2
     {
         private IWebDriver driver;
         private StringBuilder verificationErrors;
@@ -24,6 +24,7 @@ namespace WebAddressbookTests
             options.BrowserExecutableLocation = @"c:\Program Files\Mozilla Firefox\firefox.exe";
             options.UseLegacyImplementation = true;
             driver = new FirefoxDriver(options);
+
             baseURL = "http://localhost/";
             verificationErrors = new StringBuilder();
         }
@@ -43,44 +44,36 @@ namespace WebAddressbookTests
         }
 
         [Test]
-        public void GroupCreationTest()
+        public void ContactCretion()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            GoToGroupCreationAndInitNewGroup();
-            GroupData group = new GroupData("f");
-            group.Footer = "f";
-            group.Header = "f";
-            FillGroupForm(group);
-            SubmitGroupCreation();
-            ReturnToGrupPage();
+            GoToHomepage();
+            Login(new AccountData("admin","secret"));
+            CreationContact();
+            InputContactForm("f", "f", "f", "f");
+            // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+            Logout();
         }
 
-        private void ReturnToGrupPage()
+        private void Logout()
         {
             driver.FindElement(By.LinkText("Logout")).Click();
         }
 
-        private void SubmitGroupCreation()
+        private void InputContactForm(string firstname, string middlename, string lastname, string nickname)
         {
-            driver.FindElement(By.Name("submit")).Click();
+            driver.FindElement(By.Name("firstname")).Clear();
+            driver.FindElement(By.Name("firstname")).SendKeys(firstname);
+            driver.FindElement(By.Name("middlename")).Clear();
+            driver.FindElement(By.Name("middlename")).SendKeys(middlename);
+            driver.FindElement(By.Name("lastname")).Clear();
+            driver.FindElement(By.Name("lastname")).SendKeys(lastname);
+            driver.FindElement(By.Name("nickname")).Clear();
+            driver.FindElement(By.Name("nickname")).SendKeys(nickname);
         }
 
-        private void FillGroupForm(GroupData group)
+        private void CreationContact()
         {
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
-        }
-
-        private void GoToGroupCreationAndInitNewGroup()
-        {
-            driver.FindElement(By.LinkText("groups")).Click();
-            //driver.FindElement(By.Name("new")).Click();
-            driver.FindElement(By.XPath("(//input[@name='new'])[2]")).Click();
+            driver.FindElement(By.LinkText("add new")).Click();
         }
 
         private void Login(AccountData account)
@@ -92,8 +85,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
         }
 
-
-        private void OpenHomePage()
+        private void GoToHomepage()
         {
             driver.Navigate().GoToUrl(baseURL + "addressbook/");
         }
