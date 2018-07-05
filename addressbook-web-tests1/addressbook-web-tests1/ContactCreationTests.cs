@@ -53,7 +53,8 @@ namespace WebAddressbookTests
             contact.Middlename ="f1";
             contact.Lastname ="f1";
             contact.Nickname ="f1";
-            SubmitContactCreation(); //добавила 
+            InputContactForm(contact);//добавила 
+            SubmitContactCreation(); 
             // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
             Logout();
         }
@@ -65,7 +66,7 @@ namespace WebAddressbookTests
 
         private void SubmitContactCreation() //добавила метод
         {
-            driver.FindElement(By.XPath("(//input[@name='submit'])")).Click();
+            driver.FindElement(By.XPath("//*[@id='content']//*[@name='submit'][2]")).Click();
             //driver.FindElement(By.Name("submit")).Click();
         }
             private void InputContactForm(ContactData contact)
