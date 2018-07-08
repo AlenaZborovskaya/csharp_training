@@ -12,14 +12,15 @@ namespace WebAddressbookTests
 {
     public class GroupHelper : HelperBase
     {
+        private string index;
+
         public GroupHelper(ApplicationManager manager) // конструктор для driver, IWebDriver - параметр
          : base(manager)// обращаемся к конструктору base, в качестве параметра driver (когда создали HelperBase)
 
         {
         }
 
-      
-
+       
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
@@ -29,11 +30,35 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Remove(int v)
+        public GroupHelper Modify(int p, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(p);
+            InitGroupModidfication();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            return this;
+        }
+
+       
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public GroupHelper InitGroupModidfication()
+        {
+            driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+        public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
 
-            SelectGroup(1);
+            SelectGroup(p);
             DeleteGroup();
             manager.Auth.ReturnToGrupPage();
             return this;
@@ -43,11 +68,12 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
             return this;
         }
-        public GroupHelper SelectGroup(int index)
+        public GroupHelper SelectGroup(int p)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.Name("selected[]")).Click();
             return this;
         }
+        
 
         public GroupHelper SubmitGroupCreation()
         {

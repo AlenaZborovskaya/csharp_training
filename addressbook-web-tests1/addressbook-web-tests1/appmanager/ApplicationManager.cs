@@ -15,7 +15,6 @@ namespace WebAddressbookTests
     {
         //перенесли также из TestBase, так как в тестах не используется, драйвер только запускает и выключает браузер
         protected IWebDriver driver;
-        private StringBuilder verificationErrors;
         protected string baseURL;
 
         //скопировали ссылки на помощников из TestBase
