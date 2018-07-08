@@ -16,11 +16,14 @@ namespace WebAddressbookTests
     public class TestBase
     {
         protected ApplicationManager app;
+        
 
         [SetUp]
         public void SetupTest() //метод для инициализации: драйвера, помощников
         {
-            app = new ApplicationManager();//инициализируем application manager
+            app = new ApplicationManager();//создаетс ссылка на applicationmanager
+            app.Navigator.OpenHomePage();
+            app.Auth.Login(new AccountData("admin", "secret"));
         }
 
         [TearDown]

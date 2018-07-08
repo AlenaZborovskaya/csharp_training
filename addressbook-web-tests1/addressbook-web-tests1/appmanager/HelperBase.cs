@@ -12,11 +12,13 @@ namespace WebAddressbookTests
 {
     public class HelperBase
     {
+        protected ApplicationManager manager;
         protected IWebDriver driver; //перенесли ссылку на драйвер, сделали ее protected
 
-        public HelperBase (IWebDriver driver) //делаем конструктор 
+        public HelperBase (ApplicationManager manager) //делаем конструктор 
         {
-            this.driver = driver; //на вход принимает ссылку на браузер которым мы управляем драйвером и присваивает ее поле
+            this.manager = manager;
+            this.driver = manager.Driver; //на вход принимает ссылку на браузер которым мы управляем драйвером и присваивает ее поле
             
         }
 

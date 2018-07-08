@@ -24,6 +24,8 @@ namespace WebAddressbookTests
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
 
+        
+
         //иницилизируем помощников в конструкторе
         public ApplicationManager()
         {
@@ -36,15 +38,26 @@ namespace WebAddressbookTests
        
 
 
-        loginHelper = new LoginHelper(driver); //добавляем код который будет создавать помощников, в качестве параметра - driver, первая l маленькая
-        navigationHelper = new NavigationHelper(driver, baseURL);
-        groupHelper = new GroupHelper(driver);
-        contactHelper = new ContactHelper(driver);
+        loginHelper = new LoginHelper(this); //добавляем код который будет создавать помощников, в качестве параметра - driver, первая l маленькая
+        navigationHelper = new NavigationHelper(this, baseURL);
+        groupHelper = new GroupHelper(this);
+        contactHelper = new ContactHelper(this);
         }
 
         //Создаем метод для стопа драйвера (который мы перенесем из TestBase) чтобы остановить все в менеджере
 
-            public void Stop()
+        public IWebDriver Driver
+        {
+            get
+            {
+                return driver;
+            }
+
+
+        }
+
+
+        public void Stop()
         {
             try
             {
@@ -84,5 +97,6 @@ namespace WebAddressbookTests
                 return contactHelper;
             }
         }
+      
     }
 }
