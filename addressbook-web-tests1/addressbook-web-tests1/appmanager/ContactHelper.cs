@@ -30,7 +30,7 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper Modifycontact(int v, ContactData newContact)
+        public ContactHelper Modifycontact(ContactData newContact)
         {
             SelectContact();
             InitContactModification();
@@ -59,7 +59,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper DeleteContact()
         {
-            Assert.IsTrue(System.Text.RegularExpressions.Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
+           
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             Assert.IsTrue(System.Text.RegularExpressions.Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
             return this;
