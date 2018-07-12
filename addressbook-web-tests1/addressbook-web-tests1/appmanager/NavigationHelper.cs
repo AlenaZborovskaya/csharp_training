@@ -27,15 +27,35 @@ namespace WebAddressbookTests
      
         public void OpenHomePage()
         {
+            if (driver.Url == baseURL + "addressbook/")
+            {
+                return;
+            }
             driver.Navigate().GoToUrl(baseURL + "addressbook/");
         }
         public void GoToGroupPage()
         {
+            
+                driver.FindElement(By.LinkText("groups")).Click();
+        }
+
+        public void ReturnToGroupPage()
+        {
+            if (driver.Url == baseURL + "addressbook/group.php"
+                   && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("group page")).Click();
         }
         public
             void GoToGroupsPage()
         {
+            if (driver.Url == baseURL + "addressbook/group.php"
+                    && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("groups")).Click();
 
         }

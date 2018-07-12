@@ -30,9 +30,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper Modifycontact(ContactData newContact)
+        public ContactHelper Modifycontact(int index, ContactData newContact)
         {
-            SelectContact();
+            SelectContact(index);
             InitContactModification();
             InputContactForm(newContact);
             SubmitContactModification();
@@ -51,9 +51,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper RemoveContact()
+        public ContactHelper RemoveContact(int index)
         {
-            SelectContact();
+            SelectContact(index);
             DeleteContact();
             return this;
         }
@@ -64,9 +64,9 @@ namespace WebAddressbookTests
             Assert.IsTrue(System.Text.RegularExpressions.Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
             return this;
         }
-        public ContactHelper SelectContact()
+        public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.Name("selected[]")).Click();
+            driver.FindElement(By.Name("selected[+ index +]")).Click();
             return this;
         }
 
@@ -79,14 +79,10 @@ namespace WebAddressbookTests
         }
         public ContactHelper InputContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(contact.Middlename);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
-            driver.FindElement(By.Name("nickname")).Clear();
-            driver.FindElement(By.Name("nickname")).SendKeys(contact.Nickname);
+            Type(By.Name("firstname"), contact.Firstname);
+            Type(By.Name("middlename"), contact.Middlename);
+            Type(By.Name("lastname"), contact.Lastname);
+            Type(By.Name("nickname"), contact.Nickname);
             return this;
         }
         public ContactHelper CreationContact()

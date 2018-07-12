@@ -8,12 +8,12 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    class ContactRemovaltests : TestBase
+    class ContactRemovaltests : AuthTestBase
     {
         [Test]
         public void ContactRemovaltest()
         {
-            app.Contacts.RemoveContact();
+            app.Contacts.RemoveContact(1);
 
         }
     }

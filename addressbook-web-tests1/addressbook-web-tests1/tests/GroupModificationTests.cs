@@ -8,14 +8,14 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-   public  class GroupModificationTests : TestBase
+   public  class GroupModificationTests : AuthTestBase
     {
         [Test]
         public void GroupModificationTest()
         {
             GroupData newData = new GroupData("zzz");
-            newData.Footer = "ttt";
-            newData.Header = "qqq";
+            newData.Footer = null; //если укажем null то с полем не выполняется никаких действий: не очистки ни заполнения
+            newData.Header = null;
 
             app.Groups.Modify(1, newData);
 

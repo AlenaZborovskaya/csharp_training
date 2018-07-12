@@ -58,7 +58,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthTestBase.cs" />
     <Compile Include="ContactModificationTests.cs" />
+    <Compile Include="LoginTests.cs" />
     <Compile Include="tests\ContactRemovalTests.cs" />
     <Compile Include="tests\GroupModificationTests.cs" />
     <Compile Include="model\AccountData.cs" />
@@ -79,12 +81,10 @@
     <Compile Include="tests\GroupCreationTests.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="tests\ContactCreationTests.cs" />
+    <Compile Include="others\ifthenelse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
-    <None Include="GenericTest1.GenericTest">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

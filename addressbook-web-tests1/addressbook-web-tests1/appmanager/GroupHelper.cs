@@ -12,7 +12,8 @@ namespace WebAddressbookTests
 {
     public class GroupHelper : HelperBase
     {
-        private string index;
+
+    
 
         public GroupHelper(ApplicationManager manager) // конструктор для driver, IWebDriver - параметр
          : base(manager)// обращаемся к конструктору base, в качестве параметра driver (когда создали HelperBase)
@@ -60,7 +61,7 @@ namespace WebAddressbookTests
 
             SelectGroup(p);
             DeleteGroup();
-            manager.Auth.ReturnToGrupPage();
+            manager.Navigator.ReturnToGroupPage();
             return this;
         }
         public GroupHelper DeleteGroup()
@@ -71,6 +72,7 @@ namespace WebAddressbookTests
         public GroupHelper SelectGroup(int p)
         {
             driver.FindElement(By.Name("selected[]")).Click();
+           
             return this;
         }
         
@@ -80,19 +82,24 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
-        public GroupHelper FillGroupForm(GroupData group)
+       public GroupHelper FillGroupForm(GroupData group)
         {
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+            //driver.FindElement(By.Name("group_name")).Clear(); -заменяем на код ниже
+            //driver.FindElement(By.Name("group_name")).SendKeys(group.Name); -заменяем на код ниже
+
+            //By locator = By.Name("group_name"); - задаем локальные переменные,а затем подставляем их в метод Type
+           // string text = group.Name;
+
+            Type(By.Name("group_name"), group.Name); //поле которое определяется локатором group_name, и передает значение groupname
+            Type(By.Name("group_header"), group.Header);
+            Type(By.Name("group_footer"), group.Footer);
             return this;
         }
+
+       
         public GroupHelper InitNewGroup() //заменили void на GroupHelper, добавили retutn this
         {
-
+            
             driver.FindElement(By.XPath("(//input[@name='new'])[2]")).Click();
             return this;
         }

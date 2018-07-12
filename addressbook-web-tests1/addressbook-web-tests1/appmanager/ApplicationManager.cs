@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -25,8 +26,11 @@ namespace WebAddressbookTests
 
         
 
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();// это объект который будет устанавливать соответствие между текущим потоком и объектом типа ApplicationManager
+
+
         //иницилизируем помощников в конструкторе
-        public ApplicationManager()
+        private ApplicationManager() // private означает что за пределами класса никто не сможет сконструировать объекты    
         {
         FirefoxOptions options = new FirefoxOptions();
         options.BrowserExecutableLocation = @"c:\Program Files\Mozilla Firefox\firefox.exe";
@@ -43,6 +47,31 @@ namespace WebAddressbookTests
         contactHelper = new ContactHelper(this);
         }
 
+        //Делаем деструктор, чтобы заменить stop application manager: ~название класса
+         ~ApplicationManager()
+        {
+            try
+            {
+                driver.Quit();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+        }
+
+        public static ApplicationManager GetInstance() //static означает что метод также глобальный и может быть вызван не только в каком либо объекте, по имени ApplicationManager.GetInstance
+        {
+            if (! app.IsValueCreated ) //  
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigator.OpenHomePage();
+                app.Value = newInstance;
+            }
+
+            return app.Value;
+        }
+
         //Создаем метод для стопа драйвера (который мы перенесем из TestBase) чтобы остановить все в менеджере
 
         public IWebDriver Driver
@@ -53,19 +82,6 @@ namespace WebAddressbookTests
             }
 
 
-        }
-
-
-        public void Stop()
-        {
-            try
-            {
-                driver.Quit();
-            }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
-            }
         }
 
         public LoginHelper Auth

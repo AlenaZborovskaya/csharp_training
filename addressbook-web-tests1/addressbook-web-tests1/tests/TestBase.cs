@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 
-//Создает ApplicationManager и сотанавливает его
+//Создает ApplicationManager и останавливает  его - перенесли в TestSuiteFixture
 
 //после создания loginHelper добавляем в метод SetUp, где создается driver, добавляем код который будет создавать помощников
 // после этого, Login подчеркнут красным - поля Login еще нет, его необходимо сделать
@@ -19,23 +19,13 @@ namespace WebAddressbookTests
         
 
         [SetUp]
-        public void SetupTest() //метод для инициализации: драйвера, помощников
+        public void SetupApplicationManager() //метод для инициализации: драйвера, помощников
         {
-            app = new ApplicationManager();//создаетс ссылка на applicationmanager
-            app.Navigator.OpenHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
+            //app = new ApplicationManager();//конструируем менеджер, создается ссылка на applicationmanager
+
+            app = ApplicationManager.GetInstance(); // будет инициализироваться заранее тестовым фрейморком, а 
+           
         }
-
-        [TearDown]
-        public void TeardownTest() //метод, который останавливает драйверы в конце
-        {
-            app.Stop(); //вызываем метод стоп из ApplicationManager
-        }
-
-
-
-      
-        
     }
 }
 
