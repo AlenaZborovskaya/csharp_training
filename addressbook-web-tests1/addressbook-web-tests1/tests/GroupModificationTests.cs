@@ -15,7 +15,7 @@ namespace WebAddressbookTests
         {
             GroupData newData = new GroupData("zzz");
             newData.Footer = null; //если укажем null то с полем не выполняется никаких действий: не очистки ни заполнения
-            newData.Header = null;
+            newData.Header = null;  
 
             app.Groups.Modify(1, newData);
 

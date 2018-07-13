@@ -12,24 +12,24 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest()
         {
-            GroupData group = new GroupData("f");
-            group.Footer = "f";
-            group.Header = "f";
+            GroupData newData = new GroupData("f");
+            newData.Footer = "f";
+            newData.Header = "f";
            
-            app.Groups.Create(group);
-            app.Navigator.ReturnToGroupPage();
+            app.Groups.Create(newData);
+            //app.Navigator.ReturnToGroupPage();
             
         }
 
         [Test]
         public void EmptyGroupCreationTest()//проверка создания группы с пустыми именами
         {
-            GroupData group = new GroupData("");
-            group.Footer = "";
-            group.Header = "";
+            GroupData newData = new GroupData("");
+            newData.Footer = "";
+            newData.Header = "";
 
-            app.Groups.Create(group);
-            app.Navigator.ReturnToGroupPage();
+            app.Groups.Create(newData);
+            //app.Navigator.ReturnToGroupPage();
            
 
         }

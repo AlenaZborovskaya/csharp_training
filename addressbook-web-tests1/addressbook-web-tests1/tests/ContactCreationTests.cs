@@ -18,8 +18,9 @@ namespace WebAddressbookTests
             contact.Middlename ="f1";
             contact.Lastname ="f1";
             contact.Nickname ="f1";
+
             app.Contacts.Create(contact);
-            app.Auth.Logout();
+            
         }
     }
 }

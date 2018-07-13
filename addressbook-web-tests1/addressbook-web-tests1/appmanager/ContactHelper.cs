@@ -27,15 +27,17 @@ namespace WebAddressbookTests
             CreationContact();
             InputContactForm(contact);
             SubmitContactCreation();
+            manager.Navigator.ReturnToHomePage();
             return this;
         }
 
-        public ContactHelper Modifycontact(int index, ContactData newContact)
+        public ContactHelper Modifycontact(int p, ContactData newContact)
         {
-            SelectContact(index);
-            InitContactModification();
+            SelectContact(p);
+            InitContactModification(p);     
             InputContactForm(newContact);
             SubmitContactModification();
+            manager.Navigator.ReturnToHomePage();
             return this;
         }
 
@@ -45,31 +47,58 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper InitContactModification()
+        public ContactHelper InitContactModification(int p)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[3]")).Click();
+           
+         driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + p + "]")).Click();
+            
+         //driver.FindElement(By.XPath("(//img[@alt='Edit'])[3]")).Click();
             return this;
         }
 
-        public ContactHelper RemoveContact(int index)
+        public bool IsContactPresent()
         {
-            SelectContact(index);
+            
+            return IsContactPresent(By.Name("selected[]"));
+        }
+
+        public ContactHelper RemoveContact(int p)
+        {
+            SelectContact(p);
             DeleteContact();
+            CloseAlert();
             return this;
         }
         public ContactHelper DeleteContact()
         {
-           
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
-            Assert.IsTrue(System.Text.RegularExpressions.Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
+            //Assert.IsTrue(System.Text.RegularExpressions.Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
             return this;
         }
-        public ContactHelper SelectContact(int index)
+        public ContactHelper SelectContact(int p)
         {
-            driver.FindElement(By.Name("selected[+ index +]")).Click();
+        if (IsContactPresent())
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
+        }
+            else
+            {
+                ContactData contact = new ContactData("2");
+                contact.Middlename = "new";
+                contact.Lastname = "new";
+                contact.Nickname = "new";
+
+                manager.Contacts.Create(contact);
+                if (IsContactPresent())
+                {
+                    driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
+                }
+            }
+
             return this;
         }
 
+        
 
         public ContactHelper SubmitContactCreation()
         {
@@ -91,28 +120,10 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public string CloseAlertAndGetItsText()
+        public ContactHelper CloseAlert()
         {
-            try
-            {
-                IAlert alert = driver.SwitchTo().Alert();
-                string alertText = alert.Text;
-                if (acceptNextAlert)
-                {
-                    alert.Accept();
-                }
-                else
-                {
-                    alert.Dismiss();
-                }
-                return alertText;
-            }
-            finally
-            {
-                acceptNextAlert = true;
-            }
-
-
+            driver.SwitchTo().Alert().Accept();
+            return this;
         }
     }
 }

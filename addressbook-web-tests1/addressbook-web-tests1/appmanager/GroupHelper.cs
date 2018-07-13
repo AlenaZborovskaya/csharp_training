@@ -13,7 +13,7 @@ namespace WebAddressbookTests
     public class GroupHelper : HelperBase
     {
 
-    
+
 
         public GroupHelper(ApplicationManager manager) // конструктор для driver, IWebDriver - параметр
          : base(manager)// обращаемся к конструктору base, в качестве параметра driver (когда создали HelperBase)
@@ -21,15 +21,17 @@ namespace WebAddressbookTests
         {
         }
 
-       
-        public GroupHelper Create(GroupData group)
+
+        public GroupHelper Create(GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
             InitNewGroup(); //убрали app.Group так как можно не вызывать менеджер, так как методы в том же классе
-            FillGroupForm(group);
+            FillGroupForm(newData);
             SubmitGroupCreation();
+            manager.Navigator.ReturnToGroupPage();
             return this;
         }
+
 
         public GroupHelper Modify(int p, GroupData newData)
         {
@@ -38,23 +40,9 @@ namespace WebAddressbookTests
             InitGroupModidfication();
             FillGroupForm(newData);
             SubmitGroupModification();
+            manager.Navigator.ReturnToGroupPage();
             return this;
         }
-
-       
-
-        public GroupHelper SubmitGroupModification()
-        {
-            driver.FindElement(By.Name("update")).Click();
-            return this;
-        }
-
-        public GroupHelper InitGroupModidfication()
-        {
-            driver.FindElement(By.Name("edit")).Click();
-            return this;
-        }
-
         public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
@@ -64,19 +52,60 @@ namespace WebAddressbookTests
             manager.Navigator.ReturnToGroupPage();
             return this;
         }
+
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public GroupHelper InitGroupModidfication()
+        {
+
+            driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+
+        public bool IsElementPresent()
+        {
+            return IsContactPresent(By.Name("selected[]"));
+        }
+
+
+
+
         public GroupHelper DeleteGroup()
         {
-            driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
-            return this;
+          driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
+          return this;
         }
         public GroupHelper SelectGroup(int p)
         {
-            driver.FindElement(By.Name("selected[]")).Click();
-           
+            if (IsElementPresent())
+            {
+                //driver.FindElement(By.Name("selected[]")).Click();
+                driver.FindElement(By.XPath("(//input[@name='selected[]'])[" +  p  + "]")).Click();
+            }
+            else
+            {
+                GroupData newData = new GroupData("f");
+                newData.Footer = "f";
+                newData.Header = "f";
+
+                manager.Groups.Create(newData);
+
+                
+                if (IsElementPresent())
+                {
+                    
+                    driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
+                }
+            }
             return this;
         }
         
-
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
@@ -103,5 +132,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//input[@name='new'])[2]")).Click();
             return this;
         }
+       
     }
 }
+
