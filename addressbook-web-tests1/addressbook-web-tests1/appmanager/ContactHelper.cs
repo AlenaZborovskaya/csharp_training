@@ -89,7 +89,7 @@ namespace WebAddressbookTests
         public ContactHelper InitContactModification(int p)
         {
            
-         driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + p + "]")).Click();
+         driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (p+1) + "]")).Click();
             
          //driver.FindElement(By.XPath("(//img[@alt='Edit'])[3]")).Click();
             return this;
@@ -112,7 +112,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper SelectContact(int p)
         { 
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (p+1) + "]")).Click();
             return this;
         }
 

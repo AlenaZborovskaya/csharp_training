@@ -17,13 +17,13 @@ namespace WebAddressbookTests
             app.Navigator.OpenHomePage();
             app.Contacts.CheckContactExistance(1);
 
-            //List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
 
-            app.Contacts.RemoveContact(1);
+            app.Contacts.RemoveContact(0);
 
-            //List<ContactData> newContacts = app.Contacts.GetContactList();
-            //oldContacts.RemoveAt(0);
-            //Assert.AreEqual(oldContacts, newContacts);
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
 
         }
     }

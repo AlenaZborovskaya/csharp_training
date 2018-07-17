@@ -62,7 +62,7 @@ namespace WebAddressbookTests
         public GroupHelper Create(GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            InitNewGroup(); //убрали app.Group так как можно не вызывать менеджер, так как методы в том же классе
+            InitNewGroup(); 
             FillGroupForm(newData);
             SubmitGroupCreation();
             manager.Navigator.ReturnToGroupPage();
@@ -72,7 +72,6 @@ namespace WebAddressbookTests
 
         public GroupHelper Modify(int p, GroupData newData)
         {
-            manager.Navigator.GoToGroupsPage();
             SelectGroup(p);
             InitGroupModification();
             FillGroupForm(newData);
@@ -82,8 +81,6 @@ namespace WebAddressbookTests
         }
         public GroupHelper Remove(int p)
         {
-            manager.Navigator.GoToGroupsPage();
-
             SelectGroup(p);
             DeleteGroup();
             manager.Navigator.ReturnToGroupPage();
@@ -113,7 +110,7 @@ namespace WebAddressbookTests
 
         public GroupHelper SelectGroup(int p)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (p+1) + "]")).Click();
             return this;
         }
 
@@ -124,11 +121,7 @@ namespace WebAddressbookTests
         }
         public GroupHelper FillGroupForm(GroupData group)
         {
-            //driver.FindElement(By.Name("group_name")).Clear(); -заменяем на код ниже
-            //driver.FindElement(By.Name("group_name")).SendKeys(group.Name); -заменяем на код ниже
-
-            //By locator = By.Name("group_name"); - задаем локальные переменные,а затем подставляем их в метод Type
-            // string text = group.Name;
+            
 
             Type(By.Name("group_name"), group.Name); //поле которое определяется локатором group_name, и передает значение groupname
             Type(By.Name("group_header"), group.Header);
