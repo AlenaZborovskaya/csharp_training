@@ -21,6 +21,43 @@ namespace WebAddressbookTests
         {
         }
 
+        public GroupHelper CheckGroupExistance(int p)
+        {
+            if (IsElementPresent())
+            {
+                SelectGroup(p);
+            }
+            else
+            {
+                GroupData newData = new GroupData("новая");
+                newData.Footer = "новая"; 
+                newData.Header = "новая";
+
+                Create(newData);
+                manager.Navigator.ReturnToGroupPage();
+
+            }
+        
+            return this;
+        }
+
+        public List<GroupData> GetGroupList()
+        {
+            //готовим пустой список элементов типа GroupData
+
+            List<GroupData> groups = new List<GroupData>();
+
+            manager.Navigator.GoToGroupsPage();
+
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+
+            }
+            return groups;
+        }
 
         public GroupHelper Create(GroupData newData)
         {
@@ -37,7 +74,7 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToGroupsPage();
             SelectGroup(p);
-            InitGroupModidfication();
+            InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
             manager.Navigator.ReturnToGroupPage();
@@ -60,64 +97,38 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper InitGroupModidfication()
+        public GroupHelper InitGroupModification()
         {
 
             driver.FindElement(By.Name("edit")).Click();
             return this;
         }
-
-
-        public bool IsElementPresent()
-        {
-            return IsContactPresent(By.Name("selected[]"));
-        }
-
-
-
-
         public GroupHelper DeleteGroup()
         {
-          driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
-          return this;
-        }
-        public GroupHelper SelectGroup(int p)
-        {
-            if (IsElementPresent())
-            {
-                //driver.FindElement(By.Name("selected[]")).Click();
-                driver.FindElement(By.XPath("(//input[@name='selected[]'])[" +  p  + "]")).Click();
-            }
-            else
-            {
-                GroupData newData = new GroupData("f");
-                newData.Footer = "f";
-                newData.Header = "f";
-
-                manager.Groups.Create(newData);
-
-                
-                if (IsElementPresent())
-                {
-                    
-                    driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
-                }
-            }
+            driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
             return this;
         }
-        
+
+
+
+        public GroupHelper SelectGroup(int p)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
+            return this;
+        }
+
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
-       public GroupHelper FillGroupForm(GroupData group)
+        public GroupHelper FillGroupForm(GroupData group)
         {
             //driver.FindElement(By.Name("group_name")).Clear(); -заменяем на код ниже
             //driver.FindElement(By.Name("group_name")).SendKeys(group.Name); -заменяем на код ниже
 
             //By locator = By.Name("group_name"); - задаем локальные переменные,а затем подставляем их в метод Type
-           // string text = group.Name;
+            // string text = group.Name;
 
             Type(By.Name("group_name"), group.Name); //поле которое определяется локатором group_name, и передает значение groupname
             Type(By.Name("group_header"), group.Header);
@@ -125,14 +136,19 @@ namespace WebAddressbookTests
             return this;
         }
 
-       
+
         public GroupHelper InitNewGroup() //заменили void на GroupHelper, добавили retutn this
         {
-            
+
             driver.FindElement(By.XPath("(//input[@name='new'])[2]")).Click();
             return this;
         }
-       
+        public bool IsElementPresent()
+        {
+            return IsElementPresent(By.Name("selected[]"));
+        }
+
     }
 }
+
 

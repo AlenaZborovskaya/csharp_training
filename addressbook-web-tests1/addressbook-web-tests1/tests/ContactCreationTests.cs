@@ -2,7 +2,10 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Collections.Generic;
 using NUnit.Framework;
+
+
 
 
 namespace WebAddressbookTests
@@ -11,16 +14,24 @@ namespace WebAddressbookTests
     public class ContactCreationTests : AuthTestBase
     {
         [Test]
-        public void ContactCretion()
+        public void ContactCreationTest()
         {
            
-            ContactData contact = new ContactData ("1");
-            contact.Middlename ="f1";
-            contact.Lastname ="f1";
-            contact.Nickname ="f1";
+            ContactData contact = new ContactData ("лида");
+            contact.Middlename ="c";
+            contact.Lastname ="петрова";
+            contact.Nickname ="зб";
+
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
 
             app.Contacts.Create(contact);
-            
+
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
+
         }
     }
 }

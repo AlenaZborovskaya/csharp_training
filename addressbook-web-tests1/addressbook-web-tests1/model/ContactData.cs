@@ -7,18 +7,51 @@ using System.Threading.Tasks;
 namespace WebAddressbookTests
 {
     
-        public class ContactData
-        {
+        public class ContactData:  IEquatable<ContactData>, IComparable<ContactData>
+    {
             private string firstname;
             private string middlename = "";
             private string lastname = "";
             private string nickname = "";
 
-            public ContactData(string firstname)
+        public ContactData(string firstname)
             {
                 this.firstname = firstname;
             }
-            public string Firstname
+        public bool Equals(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null)) // если тот объект с которым мы сравниваем это null
+            {
+                return false; //так как текущий объект есть и он не null
+            }
+            if (Object.ReferenceEquals(this, other)) // те объекты совпадают
+            {
+                return true;
+            }
+            bool fn = Firstname == other.Firstname;
+            bool ln = Lastname == other.Lastname;
+            return fn && ln;
+        }
+
+        public override int GetHashCode()
+        {
+            return Firstname.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return "firstname=" + Firstname;
+        }
+
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            return Firstname.CompareTo(other.Firstname);
+        }
+        public string Firstname
             {
                 get
                 {
@@ -40,7 +73,9 @@ namespace WebAddressbookTests
                 middlename = value;
                 }
             }
-            public string Lastname
+        
+
+        public string Lastname
             {
                 get
                 {

@@ -34,7 +34,7 @@ namespace WebAddressbookTests
                 // то ничего не делать, else вообще можно убрать
             }
         }
-        public bool IsContactPresent(By by)
+        public bool IsElementPresent(By by)
         {
             try
             {
@@ -46,6 +46,7 @@ namespace WebAddressbookTests
                 return false;
             }
         }
+        
     }
 }
      

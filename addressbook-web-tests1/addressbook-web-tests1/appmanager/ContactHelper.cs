@@ -7,18 +7,57 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
-
+using System.Collections.ObjectModel;
 
 namespace WebAddressbookTests
 {
     public class ContactHelper : HelperBase
     {
-        private bool acceptNextAlert;
+        //private bool acceptNextAlert;
 
         public ContactHelper(ApplicationManager manager) // конструктор для driver, IWebDriver - параметр
  : base(manager)// обращаемся к конструктору base, в качестве параметра driver (когда создали HelperBase)
 
         {
+        }
+        public ContactHelper CheckContactExistance(int p)
+        {
+            if (IsElementPresent())
+            {
+                SelectContact(p);
+            }
+            else
+            {
+                ContactData contact = new ContactData("2");
+                contact.Middlename = "new";
+                contact.Lastname = "new";
+                contact.Nickname = "new";
+
+                Create(contact);
+                
+            }
+            return this;
+        }
+
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            List<ContactData> contacts1 = new List<ContactData>();
+
+            //manager.Navigator.OpenHomePage();
+            ReadOnlyCollection <IWebElement> lastName = driver.FindElements(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]"));
+            int lastNames = lastName.Count;
+            ReadOnlyCollection <IWebElement> firstName = driver.FindElements(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]"));
+
+            for (int i=0; i <= lastNames - 1; i++)
+            {
+
+                ContactData contact = new ContactData(firstName[i].Text);
+                contact.Lastname = lastName[i].Text;
+                contacts.Add(contact);
+
+            }
+            return contacts;
         }
 
 
@@ -56,11 +95,7 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public bool IsContactPresent()
-        {
-            
-            return IsContactPresent(By.Name("selected[]"));
-        }
+        
 
         public ContactHelper RemoveContact(int p)
         {
@@ -76,25 +111,8 @@ namespace WebAddressbookTests
             return this;
         }
         public ContactHelper SelectContact(int p)
-        {
-        if (IsContactPresent())
-        {
+        { 
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
-        }
-            else
-            {
-                ContactData contact = new ContactData("2");
-                contact.Middlename = "new";
-                contact.Lastname = "new";
-                contact.Nickname = "new";
-
-                manager.Contacts.Create(contact);
-                if (IsContactPresent())
-                {
-                    driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + p + "]")).Click();
-                }
-            }
-
             return this;
         }
 
@@ -124,6 +142,10 @@ namespace WebAddressbookTests
         {
             driver.SwitchTo().Alert().Accept();
             return this;
+        }
+        public bool IsElementPresent()
+        {
+            return IsElementPresent(By.Name("selected[]"));
         }
     }
 }

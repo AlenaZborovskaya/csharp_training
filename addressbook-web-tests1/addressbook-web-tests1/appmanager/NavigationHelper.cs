@@ -47,7 +47,7 @@ namespace WebAddressbookTests
         public void ReturnToGroupPage()
         {
             if (driver.Url == baseURL + "addressbook/group.php"
-                   && IsContactPresent(By.Name("new")))
+                   && IsElementPresent(By.Name("new")))
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace WebAddressbookTests
             void GoToGroupsPage()
         {
             if (driver.Url == baseURL + "addressbook/group.php"
-                    && IsContactPresent(By.Name("new")))
+                    && IsElementPresent(By.Name("new")))
             {
                 return;
             }

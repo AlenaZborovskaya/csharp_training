@@ -58,9 +58,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthTestBase.cs" />
-    <Compile Include="ContactModificationTests.cs" />
-    <Compile Include="LoginTests.cs" />
+    <Compile Include="appmanager\AuthTestBase.cs" />
+    <Compile Include="tests\ContactModificationTests.cs" />
+    <Compile Include="tests\LoginTests.cs" />
+    <Compile Include="others\циклы.cs" />
     <Compile Include="tests\ContactRemovalTests.cs" />
     <Compile Include="tests\GroupModificationTests.cs" />
     <Compile Include="model\AccountData.cs" />
@@ -85,7 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
-    <None Include="packages.config" />
+    <None Include="others\packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
