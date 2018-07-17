@@ -24,7 +24,7 @@ namespace WebAddressbookTests
         {
             if (IsElementPresent())
             {
-                SelectContact(p);
+               
             }
             else
             {

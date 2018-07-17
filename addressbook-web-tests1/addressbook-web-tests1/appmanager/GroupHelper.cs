@@ -25,7 +25,7 @@ namespace WebAddressbookTests
         {
             if (IsElementPresent())
             {
-                SelectGroup(p);
+                
             }
             else
             {
@@ -37,7 +37,7 @@ namespace WebAddressbookTests
                 manager.Navigator.ReturnToGroupPage();
 
             }
-        
+
             return this;
         }
 
