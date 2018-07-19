@@ -14,15 +14,19 @@ namespace WebAddressbookTests
         public void GroupModificationTest()
         {
             app.Navigator.GoToGroupPage();
-            app.Groups.CheckGroupExistance(0);
+            app.Groups.CheckGroupExistance();
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
+            GroupData oldData = oldGroups[0];
 
             GroupData newData = new GroupData("zzz");
             newData.Footer = null; //если укажем null то с полем не выполняется никаких действий: не очистки ни заполнения
             newData.Header = null;
 
             app.Groups.Modify(0, newData);
+
+            Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
+
             app.Navigator.ReturnToGroupPage();
 
            List<GroupData> newGroups = app.Groups.GetGroupList();
@@ -30,6 +34,14 @@ namespace WebAddressbookTests
             oldGroups.Sort();
             newGroups.Sort();
            Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData group in newGroups)
+            {
+                if (group.Id == oldData.Id) // та группа которую мы модифицировали
+                {
+                    Assert.AreEqual(newData.Name, group.Name);
+                }
+            }
 
         }
 

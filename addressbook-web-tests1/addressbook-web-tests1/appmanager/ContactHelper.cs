@@ -20,11 +20,11 @@ namespace WebAddressbookTests
 
         {
         }
-        public ContactHelper CheckContactExistance(int p)
+        public ContactHelper CheckContactExistance()
         {
             if (IsElementPresent())
             {
-               
+
             }
             else
             {
@@ -34,31 +34,61 @@ namespace WebAddressbookTests
                 contact.Nickname = "new";
 
                 Create(contact);
-                
+
             }
             return this;
         }
 
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.XPath("//table/tbody/tr[contains(@name, 'entry')]")).Count;
+        }
+
+        private List<ContactData> contactsCashe = null;
+
+
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            List<ContactData> contacts1 = new List<ContactData>();
-
-            //manager.Navigator.OpenHomePage();
-            ReadOnlyCollection <IWebElement> lastName = driver.FindElements(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]"));
-            int lastNames = lastName.Count;
-            ReadOnlyCollection <IWebElement> firstName = driver.FindElements(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]"));
-
-            for (int i=0; i <= lastNames - 1; i++)
+            if (contactsCashe == null) //если кэш еще не заполнен то заполняем его
             {
+                contactsCashe = new List<ContactData>();
 
-                ContactData contact = new ContactData(firstName[i].Text);
-                contact.Lastname = lastName[i].Text;
-                contacts.Add(contact);
+
+
+                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//table/tbody/tr[contains(@name, 'entry')]"));
+                
+                foreach (IWebElement element in elements)
+                {
+                    contactsCashe.Add(new ContactData(element.Text) 
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value"),
+                        Firstname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]")).GetAttribute("innerHTML"),
+                        Lastname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]")).GetAttribute("innerHTML")
+                    });
+                    
+                } 
+        }
+            return new List<ContactData>(contactsCashe);
 
             }
-            return contacts;
-        }
+
+
+            //List<ContactData> contacts = new List<ContactData>();
+            
+            //ReadOnlyCollection <IWebElement> lastName = driver.FindElements(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]"));
+            //int lastNames = lastName.Count;
+            //ReadOnlyCollection <IWebElement> firstName = driver.FindElements(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]"));
+
+           // for (int i=0; i <= lastNames - 1; i++)
+            //{
+
+            //    ContactData contact = new ContactData(firstName[i].Text);
+            //    contact.Lastname = lastName[i].Text;
+            //    contacts.Add(contact);
+
+           // }
+          //  return contacts;
+           //  
 
 
         public ContactHelper Create(ContactData contact)
@@ -83,6 +113,7 @@ namespace WebAddressbookTests
         public ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactsCashe = null;
             return this;
         }
 
@@ -91,7 +122,7 @@ namespace WebAddressbookTests
            
          driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (p+1) + "]")).Click();
             
-         //driver.FindElement(By.XPath("(//img[@alt='Edit'])[3]")).Click();
+         
             return this;
         }
 
@@ -107,7 +138,7 @@ namespace WebAddressbookTests
         public ContactHelper DeleteContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
-            //Assert.IsTrue(System.Text.RegularExpressions.Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
+            contactsCashe = null;
             return this;
         }
         public ContactHelper SelectContact(int p)
@@ -121,6 +152,7 @@ namespace WebAddressbookTests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("//*[@id='content']//*[@name='submit'][2]")).Click();
+            contactsCashe = null;
             return this;
 
         }

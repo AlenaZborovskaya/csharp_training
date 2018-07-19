@@ -15,16 +15,28 @@ namespace WebAddressbookTests
         public void ContactRemovaltest()
         {
             app.Navigator.OpenHomePage();
-            app.Contacts.CheckContactExistance(1);
+            app.Contacts.CheckContactExistance();
 
-            //List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
 
-            //app.Contacts.RemoveContact(0);
+            app.Contacts.RemoveContact(0);
 
-            //List<ContactData> newContacts = app.Contacts.GetContactList();
-            //oldContacts.RemoveAt(0);
-            //Assert.AreEqual(oldContacts, newContacts);
+            Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
 
+            ContactData toBeRemoved = oldContacts[0];
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, app.Contacts.GetContactList());
+
+            foreach (ContactData contact in app.Contacts.GetContactList())
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+                Assert.AreNotEqual(contact.Firstname, toBeRemoved.Firstname);
+                Assert.AreNotEqual(contact.Lastname, toBeRemoved.Lastname);
+            }
+
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

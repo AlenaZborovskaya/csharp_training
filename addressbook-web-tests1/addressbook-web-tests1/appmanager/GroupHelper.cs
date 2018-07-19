@@ -21,7 +21,7 @@ namespace WebAddressbookTests
         {
         }
 
-        public GroupHelper CheckGroupExistance(int p)
+        public GroupHelper CheckGroupExistance()
         {
             if (IsElementPresent())
             {
@@ -41,22 +41,30 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
+        }
+
+        private List<GroupData> groupCashe = null; // здесь будет хранится заполненный и сохраненный список групп. При первом обращении в Group лист мы будем использовать пустой список, потом уже заполненный
+
+
         public List<GroupData> GetGroupList()
         {
-            //готовим пустой список элементов типа GroupData
-
-            List<GroupData> groups = new List<GroupData>();
-
-            manager.Navigator.GoToGroupsPage();
-
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-
-            foreach (IWebElement element in elements)
+            if (groupCashe == null) //если кэш еще не заполнен то заполняем его
             {
-                groups.Add(new GroupData(element.Text));
-
+                groupCashe = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+                    groupCashe.Add(new GroupData(element.Text) //получает текст для каждого отдельного элемента
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                }
             }
-            return groups;
+            return new List<GroupData>(groupCashe); //возвращаем копию кэша так как снаружи его может кто нибудь изменить
         }
 
         public GroupHelper Create(GroupData newData)
@@ -91,6 +99,7 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupCashe = null;
             return this;
         }
 
@@ -103,6 +112,7 @@ namespace WebAddressbookTests
         public GroupHelper DeleteGroup()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
+            groupCashe = null;
             return this;
         }
 
@@ -117,6 +127,7 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            groupCashe = null;
             return this;
         }
         public GroupHelper FillGroupForm(GroupData group)

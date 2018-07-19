@@ -28,7 +28,10 @@ namespace WebAddressbookTests
             
 
             app.Groups.Create(newData);
-            //app.Navigator.ReturnToGroupPage();
+
+            //метод который быстро возвращает количество групп перед сравнением списков
+            
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             //метод для проверки того, что добавились группы. List<GroupData> - список объектов типа GroupData
             List<GroupData> newGroups = app.Groups.GetGroupList();
@@ -51,6 +54,8 @@ namespace WebAddressbookTests
             app.Groups.Create(newData);
             //app.Navigator.ReturnToGroupPage();
 
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups.Add(newData);
             oldGroups.Sort();
@@ -68,6 +73,8 @@ namespace WebAddressbookTests
 
             app.Groups.Create(newData);
             //app.Navigator.ReturnToGroupPage();
+
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups.Add(newData);
