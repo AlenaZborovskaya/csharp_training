@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="appmanager\AuthTestBase.cs" />
+    <Compile Include="tests\ContactInformationTest.cs" />
     <Compile Include="tests\ContactModificationTests.cs" />
     <Compile Include="tests\LoginTests.cs" />
     <Compile Include="others\циклы.cs" />
@@ -80,9 +81,11 @@
     <Compile Include="others\CircleMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tests\GroupCreationTests.cs" />
+    <Compile Include="tests\SearchTest.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="tests\ContactCreationTests.cs" />
     <Compile Include="others\ifthenelse.cs" />
+    <Compile Include="tests\UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
