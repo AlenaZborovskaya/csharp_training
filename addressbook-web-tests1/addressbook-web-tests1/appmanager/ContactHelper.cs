@@ -70,8 +70,8 @@ namespace WebAddressbookTests
                     contactsCashe.Add(new ContactData(element.Text)
                     {
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value"),
-                        Firstname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]")).GetAttribute("innerHTML"),
-                        Lastname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]")).GetAttribute("innerHTML")
+                        Firstname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]")).GetAttribute("innerHTML"),
+                        Lastname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]")).GetAttribute("innerHTML")
                     });
 
                 }
