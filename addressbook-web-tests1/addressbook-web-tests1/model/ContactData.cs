@@ -113,16 +113,16 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return Firstname == other.Firstname;
-           //&&Lastname == other.Lastname;
+            return Firstname == other.Firstname
+           &&Lastname == other.Lastname;
 
         }
-    
+
         public override int GetHashCode()
         {
             return Firstname.GetHashCode();
         }
-
+        
         public override string ToString()
         {
             return "firstname=" + Firstname + "\nlastname= " + Lastname + "\naddress" + Address + "\nhome" + HomePhone +"\nmobile" + MobilePhone + "\nwork" + WorkPhone;
@@ -133,11 +133,17 @@ namespace WebAddressbookTests
         {
             if (Object.ReferenceEquals(other, null))
             {
-                return 1;
+                return 0;
             }
-            return Firstname.CompareTo(other.Firstname);
+            int srav = Lastname.CompareTo(other.Lastname);
+            if (srav != 0)
+            {
+                return srav;
+            }
+            else
+            {
+                return Firstname.CompareTo(other.Firstname);
+            }
         }
-        
-        
     }
     }

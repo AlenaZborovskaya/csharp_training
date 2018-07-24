@@ -55,26 +55,54 @@ namespace WebAddressbookTests
         private List<ContactData> contactsCashe = null;
 
 
+        /**public List<ContactData> GetContactList()
+        {
+            if (contactsCashe == null) //если кэш еще не заполнен то заполняем его
+            {
+                contactsCashe = new List<ContactData>();
+
+                IList<IWebElement> elements = driver.FindElements(By.Name("entry"));
+
+                foreach (IWebElement element in elements)
+                {
+                    
+                        contactsCashe.Add(new ContactData(element.Text)
+                        {
+                            Id = element.FindElement(By.TagName("input")).GetAttribute("value"),
+                            Firstname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]")).GetAttribute("innerHTML"),
+                            Lastname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]")).GetAttribute("innerHTML")
+                        });
+                }
+                
+            }
+            return new List<ContactData>(contactsCashe);
+
+        }
+             IList<IWebElement> cells = element.FindElements(By.TagName("td"))
+    **/
         public List<ContactData> GetContactList()
         {
             if (contactsCashe == null) //если кэш еще не заполнен то заполняем его
             {
                 contactsCashe = new List<ContactData>();
 
-
-
-                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//table/tbody/tr[contains(@name, 'entry')]"));
-
-                foreach (IWebElement element in elements)
+                for (int i = 0; i < driver.FindElements(By.Name("entry")).Count; i = i + 1)
                 {
-                    contactsCashe.Add(new ContactData(element.Text)
-                    {
-                        Id = element.FindElement(By.TagName("input")).GetAttribute("value"),
-                        Firstname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]")).GetAttribute("innerHTML"),
-                        Lastname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]")).GetAttribute("innerHTML")
-                    });
+                    IList<IWebElement> elements = driver.FindElements(By.Name("entry"))[i].FindElements(By.TagName("td"));
 
+                        string lastName = elements[2].Text;
+                        string firstName = elements[1].Text;
+                        string id = driver.FindElements(By.Name("entry"))[i].FindElement(By.TagName("input")).GetAttribute("value");
+                        // string id = elements.FindElement(By.TagName("input")).GetAttribute("value");
+
+                        contactsCashe.Add(new ContactData(firstName)
+                        {
+                            Lastname = lastName,
+                            Id = id
+                        });
+                    
                 }
+               
             }
             return new List<ContactData>(contactsCashe);
 
