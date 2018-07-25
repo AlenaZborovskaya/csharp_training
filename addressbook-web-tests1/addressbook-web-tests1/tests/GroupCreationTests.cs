@@ -29,7 +29,13 @@ namespace WebAddressbookTests
             return groups;
         }
 
-        
+        public static IEnumerable<GroupData> GroupDataFromFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            return groups;
+        }
+
+
 
         [Test, TestCaseSource("RandomGroupDataProvider")]
 

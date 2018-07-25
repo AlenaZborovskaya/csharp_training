@@ -94,9 +94,10 @@ namespace WebAddressbookTests
                 foreach (var element in rows)
                 {
                     var cells = element.FindElements(By.TagName("td"));
-                    string lastName = cells[2].Text;
-                    string firstName = cells[1].Text;
+                    string lastName = cells[1].Text;
+                    string firstName = cells[2].Text;
                     string id = cells[0].FindElement(By.TagName("input")).GetAttribute("value");
+
                     contactsCashe.Add(new ContactData(firstName)
                     {
                         Lastname = lastName,
@@ -211,6 +212,7 @@ namespace WebAddressbookTests
 
             return new ContactData(firstName)
             {
+                Lastname = lastName,
                 Address = address,
                 AllPhones = allPhones
             };

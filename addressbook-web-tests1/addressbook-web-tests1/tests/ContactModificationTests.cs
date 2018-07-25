@@ -17,9 +17,11 @@ namespace WebAddressbookTests
             app.Contacts.CheckContactExistance();
 
             ContactData newContact = new ContactData("измененный");
-            newContact.Middlename = null;
             newContact.Lastname = null;
-            newContact.Nickname = null;
+            newContact.Address = null;
+            newContact.HomePhone = null;
+            newContact.MobilePhone = null;
+            newContact.WorkPhone = null;
 
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             ContactData oldData = oldContacts[0];
