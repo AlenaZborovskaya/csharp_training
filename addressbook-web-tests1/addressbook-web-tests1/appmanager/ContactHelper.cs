@@ -55,31 +55,7 @@ namespace WebAddressbookTests
         private List<ContactData> contactsCashe = null;
 
 
-        /**public List<ContactData> GetContactList()
-        {
-            if (contactsCashe == null) //если кэш еще не заполнен то заполняем его
-            {
-                contactsCashe = new List<ContactData>();
-
-                IList<IWebElement> elements = driver.FindElements(By.Name("entry"));
-
-                foreach (IWebElement element in elements)
-                {
-                    
-                        contactsCashe.Add(new ContactData(element.Text)
-                        {
-                            Id = element.FindElement(By.TagName("input")).GetAttribute("value"),
-                            Firstname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[3]")).GetAttribute("innerHTML"),
-                            Lastname = element.FindElement(By.XPath("//*[@id='content']//*[contains(@name, 'entry')]/td[2]")).GetAttribute("innerHTML")
-                        });
-                }
-                
-            }
-            return new List<ContactData>(contactsCashe);
-
-        }
-             IList<IWebElement> cells = element.FindElements(By.TagName("td"))
-    **/
+        /*
         public List<ContactData> GetContactList()
         {
             if (contactsCashe == null) //если кэш еще не заполнен то заполняем его
@@ -103,6 +79,31 @@ namespace WebAddressbookTests
                     
                 }
                
+            }
+            return new List<ContactData>(contactsCashe);
+
+        }
+        */
+
+        public List<ContactData> GetContactList()
+        {
+            if (contactsCashe == null) //если кэш еще не заполнен то заполняем его
+            {
+                contactsCashe = new List<ContactData>();
+                var rows = driver.FindElements(By.Name("entry"));
+                foreach (var element in rows)
+                {
+                    var cells = element.FindElements(By.TagName("td"));
+                    string lastName = cells[2].Text;
+                    string firstName = cells[1].Text;
+                    string id = cells[0].FindElement(By.TagName("input")).GetAttribute("value");
+                    contactsCashe.Add(new ContactData(firstName)
+                    {
+                        Lastname = lastName,
+                        Id = id
+                    });
+
+                }
             }
             return new List<ContactData>(contactsCashe);
 
