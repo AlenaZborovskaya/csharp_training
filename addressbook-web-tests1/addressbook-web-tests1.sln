@@ -5,6 +5,18 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "addressbook-web-tests1", "addressbook-web-tests1\addressbook-web-tests1.csproj", "{E8575DAB-B975-47A0-B755-D50235D76612}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{97D9427C-24DA-4B62-BF6B-1D6EFABEFB2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "addressbook-test-data-generators", "addressbook-test-data-generators\addressbook-test-data-generators.csproj", "{DE8FEE1F-1BD3-4E01-8905-B935FCEB956B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8575DAB-B975-47A0-B755-D50235D76612} = {E8575DAB-B975-47A0-B755-D50235D76612}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataGeneratorContacts", "TestDataGeneratorContacts\TestDataGeneratorContacts.csproj", "{44B5E32C-BD87-4A15-9636-02CFBF5C5583}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8575DAB-B975-47A0-B755-D50235D76612} = {E8575DAB-B975-47A0-B755-D50235D76612}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +27,14 @@ Global
 		{E8575DAB-B975-47A0-B755-D50235D76612}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8575DAB-B975-47A0-B755-D50235D76612}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8575DAB-B975-47A0-B755-D50235D76612}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE8FEE1F-1BD3-4E01-8905-B935FCEB956B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE8FEE1F-1BD3-4E01-8905-B935FCEB956B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE8FEE1F-1BD3-4E01-8905-B935FCEB956B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE8FEE1F-1BD3-4E01-8905-B935FCEB956B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44B5E32C-BD87-4A15-9636-02CFBF5C5583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44B5E32C-BD87-4A15-9636-02CFBF5C5583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44B5E32C-BD87-4A15-9636-02CFBF5C5583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44B5E32C-BD87-4A15-9636-02CFBF5C5583}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
